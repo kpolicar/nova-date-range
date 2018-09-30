@@ -1,0 +1,118 @@
+<?php
+
+namespace Kpolicar\DateRange;
+
+use DateTimeInterface;
+use Laravel\Nova\Fields\Field;
+use Laravel\Nova\Http\Requests\NovaRequest;
+
+class DateRange extends Field
+{
+    const DEFAULT_SEPERATOR = '-';
+
+    /**
+     * The field's component.
+     *
+     * @var string
+     */
+    public $component = 'date-range';
+
+    /**
+     * The field dates' seperator
+     *
+     * @var string
+     */
+    protected $seperator;
+
+
+    /**
+     * @inheritdoc
+     */
+    public function __construct($name, $attribute = null, $resolveCallback = null)
+    {
+        if (is_array($name)) $name = implode('-', $name);
+        $this->seperator(static::DEFAULT_SEPERATOR);
+
+        parent::__construct($name, $attribute, $resolveCallback);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
+    {
+        if ($request->exists($requestAttribute)) {
+            [$from, $to] = $this->parseAttribute($attribute);
+            [$valueFrom, $valueTo] = $this->parseResponse($request[$requestAttribute]);
+            data_set($model, $to, $valueTo);
+            data_set($model, $from, $valueFrom);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function resolveAttribute($resource, $attribute)
+    {
+        [$from, $to] = $this->parseAttribute($attribute);
+        $fromValue = data_get($resource, $from);
+        $toValue = data_get($resource, $to);
+
+        return ($fromValue && $toValue) ? $fromValue->toDateString()." $this->seperator ".$toValue->toDateString() : null;
+    }
+
+    /**
+     * Set the date format (Moment.js) that should be used to display the date.
+     *
+     * @param  string  $format
+     * @return $this
+     */
+    public function format($format)
+    {
+        return $this->withMeta(['format' => $format]);
+    }
+
+    /**
+     * Indicate that the date field is nullable.
+     *
+     * @return $this
+     */
+    public function nullable()
+    {
+        return $this->withMeta(['nullable' => true]);
+    }
+
+    /**
+     * Set the seperator for the field's dates
+     *
+     * @param $seperator
+     * @return $this
+     */
+    public function seperator($seperator)
+    {
+        $this->seperator = $seperator;
+        return $this->withMeta(['seperator' => $seperator]);
+    }
+
+    /**
+     * Parse the attribute name to retrieve the affected model attributes
+     *
+     * @param $attribute
+     * @return array
+     */
+    protected function parseAttribute($attribute)
+    {
+        return explode('-', $attribute);
+    }
+
+    /**
+     * Parse the response to retrieve the raw values
+     *
+     * @param $attribute
+     * @return array
+     */
+    protected function parseResponse($attribute)
+    {
+        return explode(" $this->seperator ", $attribute);
+    }
+}
