@@ -31,6 +31,8 @@ class DateRange extends Field
     public function __construct($name, $attribute = null, $resolveCallback = null)
     {
         if (is_array($name)) $name = implode('-', $name);
+        if (is_array($attribute)) $attribute = implode('-', $attribute);
+
         $this->seperator(static::DEFAULT_SEPERATOR);
 
         parent::__construct($name, $attribute, $resolveCallback);
