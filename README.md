@@ -24,7 +24,7 @@ class Reservation extends Resource
             // ...
             
             DateRange::make(['From', 'To']),
-            // or DateRange::make('Between', ['From', 'To']),
+            // or DateRange::make('Between', ['from', 'to']),
             
             // ...
         ];
@@ -49,7 +49,7 @@ class Reservation extends Model
 ### Installation
 You can install this package in to a Laravel app that uses Nova via composer:
 ```
-composer require fourstacks/nova-repeatable-fields
+composer require kpolicar/nova-date-range
 ```
 
 ### License
