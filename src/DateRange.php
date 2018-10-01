@@ -60,7 +60,7 @@ class DateRange extends Field
         $fromValue = data_get($resource, $from);
         $toValue = data_get($resource, $to);
 
-        return ($fromValue && $toValue) ? $fromValue->toDateString()." $this->seperator ".$toValue->toDateString() : null;
+        return $fromValue ? ($fromValue->toDateString()." $this->seperator ".($toValue ? $toValue->toDateString() : '/')) : null;
     }
 
     /**
@@ -115,6 +115,6 @@ class DateRange extends Field
      */
     protected function parseResponse($attribute)
     {
-        return explode(" $this->seperator ", $attribute);
+        return array_pad(explode(" $this->seperator ", $attribute), 2, null);
     }
 }
