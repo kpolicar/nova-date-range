@@ -3,7 +3,15 @@
     "description": "Custom date range picker field for Laravel Nova",
     "keywords": [
         "laravel",
-        "nova"
+        "nova",
+        "daterange",
+        "date",
+        "range",
+        "from",
+        "to",
+        "multiple",
+        "custom",
+        "field"
     ],
     "license": "MIT",
     "require": {
