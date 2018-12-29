@@ -115,6 +115,10 @@ class DateRange extends Field
      */
     protected function parseResponse($attribute)
     {
+        if ($attribute === null) {
+            return [null, null];
+        }
+        
         return array_pad(explode(" $this->seperator ", $attribute), 2, null);
     }
 }
