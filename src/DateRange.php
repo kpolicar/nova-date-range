@@ -8,7 +8,8 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class DateRange extends Field
 {
-    const DEFAULT_SEPERATOR = '-';
+    const DEFAULT_SEPARATOR = '-';
+    const DEFAULT_NULL_VALUE = '/';
 
     /**
      * The field's component.
@@ -18,11 +19,18 @@ class DateRange extends Field
     public $component = 'date-range';
 
     /**
-     * The field dates' seperator
+     * The field dates' separator.
      *
      * @var string
      */
-    protected $seperator;
+    protected $separator = DateRange::DEFAULT_SEPARATOR;
+
+    /**
+     * The field dates' null value display.
+     *
+     * @var string
+     */
+    protected $nullDisplay = DateRange::DEFAULT_NULL_VALUE;
 
 
     /**
@@ -33,8 +41,6 @@ class DateRange extends Field
         if (is_array($name)) $name = implode('-', $name);
         if (is_array($attribute)) $attribute = implode('-', $attribute);
 
-        $this->seperator(static::DEFAULT_SEPERATOR);
-
         parent::__construct($name, $attribute, $resolveCallback);
     }
 
@@ -43,12 +49,12 @@ class DateRange extends Field
      */
     protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
     {
-        if ($request->exists($requestAttribute)) {
-            [$from, $to] = $this->parseAttribute($attribute);
-            [$valueFrom, $valueTo] = $this->parseResponse($request[$requestAttribute]);
-            data_set($model, $to, $valueTo);
-            data_set($model, $from, $valueFrom);
-        }
+        if (!$request->exists($requestAttribute)) return;
+
+        [$from, $to] = $this->parseAttribute($attribute);
+        [$valueFrom, $valueTo] = $this->parseResponse($request[$requestAttribute]);
+        data_set($model, $to, $valueTo);
+        data_set($model, $from, $valueFrom);
     }
 
     /**
@@ -57,10 +63,20 @@ class DateRange extends Field
     protected function resolveAttribute($resource, $attribute)
     {
         [$from, $to] = $this->parseAttribute($attribute);
-        $fromValue = data_get($resource, $from);
-        $toValue = data_get($resource, $to);
+        $fromValue = $this->formatDisplayValue(data_get($resource, $from));
+        $toValue = $this->formatDisplayValue(data_get($resource, $to));
 
-        return $fromValue ? ($fromValue->toDateString()." $this->seperator ".($toValue ? $toValue->toDateString() : '/')) : null;
+        return "$fromValue $this->separator $toValue";
+    }
+
+    /**
+     * Format the datetime value
+     * @param $value
+     * @return string
+     */
+    protected function formatDisplayValue($value)
+    {
+        return $value instanceof DateTimeInterface ? $value->toDateString() : $this->nullDisplay;
     }
 
     /**
@@ -85,15 +101,26 @@ class DateRange extends Field
     }
 
     /**
-     * Set the seperator for the field's dates
+     * Set the separator for the field's dates
      *
-     * @param $seperator
+     * @param $separator
      * @return $this
      */
-    public function seperator($seperator)
+    public function separator($separator)
     {
-        $this->seperator = $seperator;
-        return $this->withMeta(['seperator' => $seperator]);
+        $this->separator = $separator;
+        return $this->withMeta(['separator' => $separator]);
+    }
+
+    /**
+     * Set the null display value for the field dates
+     *
+     * @param $value
+     */
+    public function nullDisplay($value)
+    {
+        $this->nullDisplay = $value;
+        return $this;
     }
 
     /**
@@ -119,6 +146,6 @@ class DateRange extends Field
             return [null, null];
         }
         
-        return array_pad(explode(" $this->seperator ", $attribute), 2, null);
+        return array_pad(explode(" $this->separator ", $attribute), 2, null);
     }
 }
