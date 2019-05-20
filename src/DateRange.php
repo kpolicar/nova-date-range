@@ -74,14 +74,16 @@ class DateRange extends Field
         return $this->withMeta(['format' => $format]);
     }
 
-    /**
-     * Indicate that the date field is nullable.
-     *
-     * @return $this
-     */
-    public function nullable()
+	/**
+	 * Indicate that the field should be nullable.
+	 *
+	 * @param  bool $nullable
+	 * @param  array|Closure $values
+	 * @return $this
+	 */
+    public function nullable($nullable = true, $values = null)
     {
-        return $this->withMeta(['nullable' => true]);
+        return $this->withMeta(['nullable' => $nullable]);
     }
 
     /**
