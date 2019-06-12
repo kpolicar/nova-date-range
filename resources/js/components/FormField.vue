@@ -2,6 +2,7 @@
     <default-field :field="field">
         <template slot="field">
             <date-range-picker
+                :dusk="field.attribute"
                 class="w-full form-control form-input form-input-bordered"
                 mode="sa"
                 :name="field.name"
@@ -11,6 +12,7 @@
                 :dateFormat="format"
                 :placeholder="placeholder"
                 @change="handleChange"
+                :disabled="isReadonly"
             />
 
             <p v-if="hasError" class="my-2 text-danger">
@@ -21,10 +23,10 @@
 </template>
 
 <script>
-import DateRangePicker from './DateRangePicker'
-import { Errors, FormField, HandlesValidationErrors, InteractsWithDates } from 'laravel-nova'
+    import DateRangePicker from './DateRangePicker'
+    import {FormField, HandlesValidationErrors, InteractsWithDates} from 'laravel-nova'
 
-export default {
+    export default {
     mixins: [HandlesValidationErrors, FormField, InteractsWithDates],
     components: { DateRangePicker },
 
