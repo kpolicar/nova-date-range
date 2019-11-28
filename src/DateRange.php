@@ -74,6 +74,17 @@ class DateRange extends Field
         return $this->withMeta(['format' => $format]);
     }
 
+    /**
+     * Set the date format (Moment.js) that should be used to display the placeholder.
+     *
+     * @param  string  $format
+     * @return $this
+     */
+    public function placeholderFormat($format)
+    {
+        return $this->withMeta(['placeholderFormat' => $format]);
+    }
+
 	/**
 	 * Indicate that the field should be nullable.
 	 *
@@ -120,7 +131,7 @@ class DateRange extends Field
         if ($attribute === null) {
             return [null, null];
         }
-        
+
         return array_pad(explode(" $this->seperator ", $attribute), 2, null);
     }
 }

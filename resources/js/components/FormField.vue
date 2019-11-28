@@ -21,23 +21,26 @@
 </template>
 
 <script>
-import DateRangePicker from './DateRangePicker'
-import { Errors, FormField, HandlesValidationErrors, InteractsWithDates } from 'laravel-nova'
+    import DateRangePicker from './DateRangePicker';
+    import {Errors, FormField, HandlesValidationErrors, InteractsWithDates} from 'laravel-nova';
 
-export default {
-    mixins: [HandlesValidationErrors, FormField, InteractsWithDates],
-    components: { DateRangePicker },
+    export default {
+        mixins: [HandlesValidationErrors, FormField, InteractsWithDates],
+        components: {DateRangePicker},
 
-    computed: {
-        format() {
-            return this.field.format
+        computed: {
+            format() {
+                return this.field.format;
+            },
+            placeholderFormat() {
+                return this.field.placeholderFormat || 'YYYY-MM-DD';
+            },
+            seperator() {
+                return this.field.seperator;
+            },
+            placeholder() {
+                return moment().format(this.placeholderFormat) + ` ${this.field.seperator} ` + moment().format(this.placeholderFormat);
+            },
         },
-        seperator() {
-            return this.field.seperator
-        },
-        placeholder() {
-            return moment().format('YYYY-MM-DD') + ` ${this.field.seperator} ` + moment().format('YYYY-MM-DD')
-        },
-    },
-}
+    };
 </script>
