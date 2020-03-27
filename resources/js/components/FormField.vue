@@ -11,6 +11,7 @@
                 :dateFormat="format"
                 :placeholder="placeholder"
                 @change="handleChange"
+                :disabled="isReadonly"
             />
 
             <p v-if="hasError" class="my-2 text-danger">
