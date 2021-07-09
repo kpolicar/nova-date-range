@@ -42,7 +42,7 @@ export default {
                 mode: 'range',
                 locale: {
                     rangeSeparator: ` ${this.seperator} `,
-                    firstDayOfWeek: this.firstDayOfWeek
+                    firstDayOfWeek: this.firstDayOfWeek,
                 }
             })
         })
@@ -50,7 +50,7 @@ export default {
 
     methods: {
         onChange(event) {
-            this.$emit('change', this.$refs.datePicker.value)
+            this.$emit('change', { target: this.$refs.datePicker })
         },
     },
 }
