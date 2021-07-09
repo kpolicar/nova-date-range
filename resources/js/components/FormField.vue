@@ -24,7 +24,7 @@
 
 <script>
 import DateRangePicker from './DateRangePicker'
-import { Errors, FormField, HandlesValidationErrors, InteractsWithDates } from 'laravel-nova'
+import { FormField, HandlesValidationErrors, InteractsWithDates } from 'laravel-nova'
 
 export default {
     mixins: [HandlesValidationErrors, FormField, InteractsWithDates],

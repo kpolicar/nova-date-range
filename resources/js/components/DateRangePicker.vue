@@ -28,7 +28,10 @@ export default {
             type: String,
             default: '-',
         },
-        firstDayOfWeek: { type: Number, default: 0 },
+        firstDayOfWeek: {
+          type: Number,
+          default: 0
+        },
     },
 
     data: () => ({ flatpickr: null }),
