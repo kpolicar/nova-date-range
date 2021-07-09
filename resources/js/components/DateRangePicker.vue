@@ -27,7 +27,8 @@ export default {
         seperator: {
             type: String,
             default: '-',
-        }
+        },
+        firstDayOfWeek: { type: Number, default: 0 },
     },
 
     data: () => ({ flatpickr: null }),
