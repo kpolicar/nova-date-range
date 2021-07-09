@@ -40,7 +40,8 @@ export default {
                 allowInput: true,
                 mode: 'range',
                 locale: {
-                    rangeSeparator: ` ${this.seperator} `
+                    rangeSeparator: ` ${this.seperator} `,
+                    firstDayOfWeek: this.firstDayOfWeek
                 }
             })
         })
