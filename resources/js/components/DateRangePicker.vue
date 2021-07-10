@@ -27,7 +27,11 @@ export default {
         seperator: {
             type: String,
             default: '-',
-        }
+        },
+        firstDayOfWeek: {
+          type: Number,
+          default: 0
+        },
     },
 
     data: () => ({ flatpickr: null }),
@@ -40,7 +44,8 @@ export default {
                 allowInput: true,
                 mode: 'range',
                 locale: {
-                    rangeSeparator: ` ${this.seperator} `
+                    rangeSeparator: ` ${this.seperator} `,
+                    firstDayOfWeek: this.firstDayOfWeek,
                 }
             })
         })
@@ -48,7 +53,7 @@ export default {
 
     methods: {
         onChange(event) {
-            this.$emit('change', this.$refs.datePicker.value)
+            this.$emit('change', { target: this.$refs.datePicker })
         },
     },
 }

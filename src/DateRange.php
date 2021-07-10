@@ -99,6 +99,17 @@ class DateRange extends Field
     }
 
     /**
+     * Set the first day of the week.
+     *
+     * @param  int  $day
+     * @return $this
+     */
+    public function firstDayOfWeek($day)
+    {
+        return $this->withMeta([__FUNCTION__ => $day]);
+    }
+
+    /**
      * Parse the attribute name to retrieve the affected model attributes
      *
      * @param $attribute
