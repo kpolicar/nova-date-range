@@ -53,4 +53,4 @@ composer require kpolicar/nova-date-range
 ```
 
 ### License
-The MIT License (MIT). Please see [License File](LICENSE) for more information.
+The BSD 3-Clause "New" or "Revised" License. Please see [License File](LICENSE) for more information.
