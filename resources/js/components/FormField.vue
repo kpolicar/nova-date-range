@@ -29,7 +29,9 @@ import { FormField, HandlesValidationErrors, InteractsWithDates } from 'laravel-
 export default {
     mixins: [HandlesValidationErrors, FormField, InteractsWithDates],
     components: { DateRangePicker },
-
+    mounted() {
+        console.log('Test in Component');
+    },
     computed: {
         format() {
             return this.field.format
