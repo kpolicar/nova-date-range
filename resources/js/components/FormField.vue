@@ -13,6 +13,14 @@
                 :placeholder="placeholder"
                 @change="handleChange"
                 :disabled="isReadonly"
+                :classWhitelist="[
+                    'flatpickr-current-month',
+                    'flatpickr-next-month',
+                    'flatpickr-prev-month',
+                    'flatpickr-weekday',
+                    'flatpickr-weekdays',
+                    'flatpickr-calendar'
+                ]"
             />
 
             <p v-if="hasError" class="my-2 text-danger">
@@ -29,9 +37,6 @@ import { FormField, HandlesValidationErrors, InteractsWithDates } from 'laravel-
 export default {
     mixins: [HandlesValidationErrors, FormField, InteractsWithDates],
     components: { DateRangePicker },
-    mounted() {
-        console.log('FormField.vue mounted');
-    },
     computed: {
         format() {
             return this.field.format
