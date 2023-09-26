@@ -30,7 +30,7 @@ export default {
     mixins: [HandlesValidationErrors, FormField, InteractsWithDates],
     components: { DateRangePicker },
     mounted() {
-        console.log('Test in Component');
+        console.log('FormField.vue mounted');
     },
     computed: {
         format() {

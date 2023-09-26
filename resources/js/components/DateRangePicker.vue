@@ -37,6 +37,7 @@ export default {
     data: () => ({ flatpickr: null }),
 
     mounted() {
+        console.log('DateRangePicker.vue mounted');
         this.$nextTick(() => {
             this.flatpickr = flatpickr(this.$refs.datePicker, {
                 onClose: this.onChange,
