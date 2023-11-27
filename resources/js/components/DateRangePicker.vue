@@ -39,7 +39,9 @@ export default {
     mounted() {
         this.$nextTick(() => {
             this.flatpickr = flatpickr(this.$refs.datePicker, {
-                onClose: this.onChange,
+                onOpen: this.onOpen,
+                onClose: this.onClose,
+                onChange: this.onChange,
                 dateFormat: this.dateFormat,
                 allowInput: true,
                 mode: 'range',
@@ -55,6 +57,13 @@ export default {
         onChange(event) {
             this.$emit('change', { target: this.$refs.datePicker })
         },
+        onOpen(event) {
+            Nova.$emit('datepicker-opened', event)
+        },
+        onClose(event) {
+            this.onChange(event)
+            Nova.$emit('datepicker-closed', event)
+        },        
     },
 }
 </script>
